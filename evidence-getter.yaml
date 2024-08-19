@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: evidence-getter
+  namespace: default
+spec:
+  runtimeClassName: kata-cc-tdx
+  containers:
+  - image: quay.io/fidencio/evidence-getter:latest
+    command:
+      - sleep
+      - "36000"
+    name: evidence-getter
+  restartPolicy: Never
