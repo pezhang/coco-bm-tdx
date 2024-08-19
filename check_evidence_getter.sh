@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Function to check if the container can start with kata-cc-tdx
+# Function to start container which will collect tdx td quote
 function start_container_evidence_getter() {
     local deployment=$1
     local namespace=$2
@@ -31,8 +31,18 @@ function get_evidence(){
     local podname=evidence_getter
     local namespace=default
     evidence=$(oc exec -it $podname -n $namespace -- sh -c "dd if=/dev/urandom bs=64 | evidence_getter")
-
+    quote=$(echo "$content" | jq ".quote")
+    echo $quote
+    if [ ! -z "$quote" ]; then
+       echo "Get tdx quote successfully"
+    else
+	echo "Fails to get tdx quote. Please check the qgs and pccs service."
+	exit 1
+    fi
 }
 
-
+# Start container to get td quote
 start_container_tdx test-kata-cc-tdx test
+
+# Get td quote
+get_evidence evidence_getter default 
