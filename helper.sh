@@ -58,9 +58,9 @@ EOF
 
 # Function to clean container
 function clean_container(){
-    local container_name
-    local namespace
-    oc delete pod $container_name -n $namespace || exit 1
+    local deployment=$1
+    local namespace=$2
+    oc delete pod $deployment -n $namespace || oc delete pod $deployment -n $namespace --force 
 }
 
 #check_oc
