@@ -7,7 +7,7 @@ function start_container_evidence_getter() {
     local timeout=300
     local interval=5
     local elapsed=0
-    local podname=evidence_getter
+    local podname=evidence-getter
     local namespace=default
 
     oc apply -f evidence-getter.yaml || exit 1
@@ -28,7 +28,7 @@ function start_container_evidence_getter() {
 
 # Function to get evidence
 function get_evidence(){
-    local podname=evidence_getter
+    local podname=evidence-getter
     local namespace=default
     evidence=$(oc exec -it $podname -n $namespace -- sh -c "dd if=/dev/urandom bs=64 | evidence_getter")
     quote=$(echo "$content" | jq ".quote")
@@ -42,7 +42,7 @@ function get_evidence(){
 }
 
 # Start container to get td quote
-start_container_evidence_getter evidence_getter default
+start_container_evidence_getter evidence-getter default
 
 # Get td quote
-get_evidence evidence_getter default 
+get_evidence evidence-getter default 
