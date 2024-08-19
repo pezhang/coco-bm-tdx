@@ -42,7 +42,7 @@ function get_evidence(){
 }
 
 # Start container to get td quote
-start_container_tdx test-kata-cc-tdx test
+start_container_evidence_getter test-kata-cc-tdx test
 
 # Get td quote
 get_evidence evidence_getter default 
