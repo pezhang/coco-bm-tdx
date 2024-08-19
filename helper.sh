@@ -62,9 +62,3 @@ function clean_container(){
     local namespace=$2
     oc delete pod $deployment -n $namespace || oc delete pod $deployment -n $namespace --force 
 }
-
-#check_oc
-#check_kubeconfig
-#get_worker_node
-#uploads_ssh_pubkey
-#disbale_selinux_worker
