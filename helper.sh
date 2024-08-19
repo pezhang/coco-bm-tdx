@@ -60,7 +60,7 @@ EOF
 function clean_container(){
     local container_name
     local namespace
-    oc delete -f $container_name -n $namespace || exit 1
+    oc delete pod $container_name -n $namespace || exit 1
 }
 
 #check_oc
