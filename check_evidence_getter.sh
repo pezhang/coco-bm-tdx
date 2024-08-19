@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source helper.sh
+
 # Function to start container which will collect tdx td quote
 function start_container_evidence_getter() {
     local deployment=$1
@@ -46,3 +48,6 @@ start_container_evidence_getter evidence-getter default
 
 # Get td quote
 get_evidence evidence-getter default 
+
+# Clean the container 
+clean_container evidence-getter default

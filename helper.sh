@@ -56,8 +56,15 @@ exit
 EOF
 }
 
-check_oc
-check_kubeconfig
-get_worker_node
-uploads_ssh_pubkey
-disbale_selinux_worker
+# Function to clean container
+function clean_container(){
+    local container_name
+    local namespace
+    oc delete -f $container_name -n $namespace || exit 1
+}
+
+#check_oc
+#check_kubeconfig
+#get_worker_node
+#uploads_ssh_pubkey
+#disbale_selinux_worker
