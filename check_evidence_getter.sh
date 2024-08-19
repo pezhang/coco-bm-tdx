@@ -16,13 +16,13 @@ function start_container_evidence_getter() {
         status=$(oc get pods -n "$namespace" "$deployment" -o jsonpath='{.status.phase}')
 	echo "The container is $status"
         if [ "$status" == "Running" ]; then
-            echo "The container with kata-cc-tdx can start up"
+            echo "The evidence getter container with kata-cc-tdx can start up"
             return 0
         fi
         sleep $interval
         elapsed=$((elapsed + interval))
     done
-    echo "The container with kata-cc-tdx fails start up after $timeout seconds"
+    echo "The evidence getter container with kata-cc-tdx fails start up after $timeout seconds"
     return 1
 }
 
@@ -42,7 +42,7 @@ function get_evidence(){
 }
 
 # Start container to get td quote
-start_container_evidence_getter test-kata-cc-tdx test
+start_container_evidence_getter evidence_getter default
 
 # Get td quote
 get_evidence evidence_getter default 
