@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source helper.sh
+source ./helper.sh
 
 # Function to start container which will collect tdx td quote
 function start_container_evidence_getter() {
