@@ -30,13 +30,13 @@ function start_container_evidence_getter() {
 function get_evidence(){
     local podname=evidence-getter
     local namespace=default
-    evidence=$(oc exec -it $podname -n $namespace -- sh -c "dd if=/dev/urandom bs=64 | evidence_getter")
+    content=$(oc exec -it $podname -n $namespace -- sh -c "dd if=/dev/urandom bs=64 | evidence_getter")
     quote=$(echo "$content" | jq ".quote")
     echo $quote
     if [ ! -z "$quote" ]; then
-       echo "Get tdx quote successfully"
+       echo "Get td quote successfully"
     else
-	echo "Fails to get tdx quote. Please check the qgs and pccs service."
+	echo "Fails to get td quote. Please check the qgs and pccs service."
 	exit 1
     fi
 }
