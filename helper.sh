@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export PUBKEY_PATH=~/.ssh/id_rsa.pub
-export WORKER_NODE="worker"
+PUBKEY_PATH=~/.ssh/id_rsa.pub
+WORKER_NODE="worker"
 
 # Function to check if the oc command is available
 function check_oc() {
@@ -29,8 +29,8 @@ function get_worker_node(){
 # Function to check and uploads local server ssh public key to the worker node
 function uploads_ssh_pubkey(){
     if ! ls $PUBKEY_PATH; then
-        echo "Local server ssh public key patch doesn't exists. Please export PUBKEY_PATH with correct path"
-        exit 1
+        echo "Local server ssh public key patch doesn't exists. Please enter the correct path"
+        read -p "Please enter your local server ssh public key path: " PUBKEY_PATH
     fi
     PUBKEY=$(cat $PUBKEY_PATH)
     echo $PUBKEY
