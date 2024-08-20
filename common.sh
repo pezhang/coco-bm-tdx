@@ -52,9 +52,8 @@ function create_keys() {
     openssl genpkey -algorithm ed25519 > privateKey || exit 1
     openssl pkey -in privateKey -pubout -out kbs.pem || exit 1
     oc create secret generic kbs-auth-public-key --from-file=kbs.pem -n kbs-operator-system || exit 1
-    oc apply -f reference-values.yaml
+    oc apply -f reference-values.yaml || exit 1
     oc create secret generic kbsres1 --from-literal key1=res1val1 --from-literal key2=res1val2 key.bin=key.bin -n kbs-operator-system || exit 1
     oc apply -f kbs-config.yaml || exit 1
     oc apply -f crd.yaml || exit 1
 }
-
