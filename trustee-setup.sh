@@ -1,11 +1,17 @@
-# git clone https://github.com/lmilleri/trustee-operator-install.git
-# cd trustee-operator-install
+#!/bin/bash
 
+CLUSTER="${CLUSTER:-OCP}"
 
+source ./common.sh
 
-# oc apply -f ns.yaml
-# oc apply -f kbs_catalog-ocp.yaml
-# oc apply -f og.yaml
-# oc apply -f subs-ocp.yaml
+# Check if oc command is available
+check_oc
 
+# Apply the operator manifests
+apply_operator_manifests $CLUSTER 
 
+# Create keys for kbs operator
+create_keys
+
+wait_for_deployment trustee-operator-controller-manager kbs-operator-system || exit 1
+wait_for_deployment trustee-deployment kbs-operator-system || exit 1
