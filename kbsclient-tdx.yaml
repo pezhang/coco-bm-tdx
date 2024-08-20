@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kbs-client
+  namespace: default
+spec:
+  containers:
+  - name: kbs-client
+    image: quay.io/confidential-containers/kbs-client:latest
+      #imagePullPolicy: IfNotPresent
+    imagePullPolicy: Always
+    command:
+      - sleep
+      - "360000"
+    dns_search: []
+    env:
+      - name: RUST_LOG
+        value:  none
+  runtimeClassName: kata-cc-tdx
