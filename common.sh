@@ -57,3 +57,29 @@ function create_keys() {
     oc apply -f kbs-config.yaml || exit 1
     oc apply -f crd.yaml || exit 1
 }
+
+# Function to get a key from kbs server
+function get_kbs_key() {
+    namespace="kbs-operator-system"
+
+    #start a kbs client pod
+    oc apply -f kbsclient-tdx.yaml || exit 1
+    sleep 30
+    kbsclient_pod=$(oc get pod kbs-client -n default -o jsonpath='{.status.phase}')
+    if [ $kbsclient_pod == "running" ];then
+      echo "kbs client pod is runing"
+    else
+      echo "kbs pod not running"||exit 1
+    fi
+    
+    #Get the kbs deployment and operator pods status
+    kbs_pod_stats_num=$(oc get pod -n $namespace -o jsonpath="{range .items[*]}[{.metadata.name},{.status.phase}]{'\n'}{end}"|grep -Ei "kbs*.*running"|wc -l)
+    if [ $kbs_pod_stats_num -eq 2 ]; then
+      KBS_SVC_IP=$(oc get svc -n kbs-operator-system kbs-service -o jsonpath={.spec.clusterIP}) || exit 1
+      #oc set image -n kbs-operator-system deployment/kbs-deployment kbs=quay.io/openshift_sandboxed_containers/kbs:latest || exit 1
+      oc set image -n kbs-operator-system deployment/kbs-deployment kbs=quay.io/openshift_sandboxed_containers/kbs:tdx-hack || exit 1
+      oc exec -it kbs-client -- kbs-client --url http://$KBS_SVC_IP:8080 get-resource --path default/kbsres1/key1 || exit 1
+    else 
+      echo "kbs deployment/operator pods not runnig" || exit 1
+    fi
+}

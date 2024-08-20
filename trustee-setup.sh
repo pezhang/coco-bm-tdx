@@ -13,5 +13,8 @@ apply_operator_manifests $CLUSTER
 # Create keys for kbs operator
 create_keys
 
+# Get kbs key from kbs server
+get_kbs_key
+
 wait_for_deployment trustee-operator-controller-manager kbs-operator-system || exit 1
 wait_for_deployment trustee-deployment kbs-operator-system || exit 1
